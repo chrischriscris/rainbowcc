@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# a command line tool made by chrischriscris
+
 from cromatic import  square_collage, bar_mapping
 import os, sys
 
