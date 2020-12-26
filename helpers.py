@@ -1,4 +1,4 @@
-import os
+import os, shutil
 
 def square_matrix(n, placeholder=False):
 	matrix = []
@@ -49,8 +49,7 @@ def verify_path(temp_dir=""):
 	if not temp_dir: 
 	        temp_dir='tmp'
 	        try:
-		        for image in os.listdir(temp_dir):
-	        		os.remove(f"{temp_dir}/{image}")
+		        shutil.rmtree(temp_dir)
 	        except:
 	        	os.mkdir(temp_dir)
 	else:
