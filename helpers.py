@@ -1,3 +1,5 @@
+import os
+
 def square_matrix(n, placeholder=False):
 	matrix = []
 	for i in range(n):
@@ -16,8 +18,6 @@ def gen_diagonal(diagonal, n, placeholder=False, element=True):
 				if diagonal - 1 == i + j:
 					matrix[i][j] = element
 		return matrix
-
-
 
 def diagonalize_array(array):
 
@@ -43,3 +43,19 @@ def twoD_to_linear(array):
 	for lista in array:
 		output = [*output, *lista]
 	return output
+
+# Verify if some provided path exists, if not, it is created
+def verify_path(temp_dir=""):
+	if not temp_dir: 
+	        temp_dir='tmp'
+	        try:
+		        for image in os.listdir(temp_dir):
+	        		os.remove(f"{temp_dir}/{image}")
+	        except:
+	        	os.mkdir(temp_dir)
+	else:
+	    try:
+	        os.listdir(temp_dir)
+	    except:
+	        os.mkdir(temp_dir)
+	return temp_dir

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from PIL import Image
-from helpers import diagonalize_array
+from helpers import diagonalize_array, verify_path
 import os
 
 # Returns a resized bar of longitude n x 1 from a chromatic bar file
@@ -14,15 +14,17 @@ def pixel_resize(image):
 
 # Creates a temporal directory in temp_db_dir with every image in path resized to 1 x 1
 # Returns the number of images correctly resized and put into the temporary directory
-def temp_img_dir(path, temp_dir):
+def temp_img_dir(path, temp_dir=""):
     counter = 0
+    temp_dir = verify_path(temp_dir)
+
     try:
         for image in os.listdir(path):
             if "mp4" in image:
                 continue
             else:
                 img = pixel_resize(path + image)
-                img.save(temp_dir + image)
+                img.save(f"{temp_dir}/{image}")
                 counter += 1
         return counter
     except Exception as e:
@@ -33,7 +35,8 @@ def temp_img_dir(path, temp_dir):
 # Take as inputs a directory of album covers, a temp_dir, a chromatic bar image
 # and the size of the final collage array. Returns an ordered list with the most
 # similar albums according to the bar image.
-def bar_mapping(directory, temp_dir, bar, size):
+def bar_mapping(directory, bar, size, temp_dir=""):
+    temp_dir = verify_path(temp_dir)
     temp_img_dir(directory, temp_dir)
     mapping = []
     bar = colorbar(bar, size ** 2).convert('RGB')
@@ -46,7 +49,8 @@ def bar_mapping(directory, temp_dir, bar, size):
         # and appends to mapping list the filename of the cover with less color difference
         # that's not already in the list
         for image in os.listdir(temp_dir):
-            cover = Image.open(temp_dir + image).convert('RGB')
+            folder = f"{temp_dir}/{image}"
+            cover = Image.open(folder).convert('RGB')
             r, g, b = cover.getpixel((0, 0))
             diff = (((rc - r)**2) + ((gc - g)**2) + ((bc - b)**2))**0.5
 
@@ -55,8 +59,9 @@ def bar_mapping(directory, temp_dir, bar, size):
                 cover_name = image
         mapping.append(cover_name)
 
+    # Removes residual resources from the temporary directory
     for image in os.listdir(temp_dir):
-        os.remove(temp_dir + image)
+        os.remove(f"{temp_dir}/{image}")
     return diagonalize_array(mapping)
 
 # Returns an n x n collage according to a list of cover that contain the filenames of a 
