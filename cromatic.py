@@ -2,7 +2,7 @@
 
 from PIL import Image
 from helpers import diagonalize_array, verify_path
-import os
+import os, shutil
 
 # Returns a resized bar of longitude n x 1 from a chromatic bar file
 def colorbar(image, longitude):
@@ -23,7 +23,7 @@ def temp_img_dir(path, temp_dir=""):
             if "mp4" in image:
                 continue
             else:
-                img = pixel_resize(path + image)
+                img = pixel_resize(f"{path}/{image}")
                 img.save(f"{temp_dir}/{image}")
                 counter += 1
         return counter
@@ -43,7 +43,7 @@ def bar_mapping(directory, bar, size, temp_dir=""):
 
     for i in range(0, size ** 2):
         rc, gc, bc = bar.getpixel((i, 0))
-        mindif = 1000
+        mindif = 1000000
 
         # For each color in the resized bar, loops through every album in the temp_dir
         # and appends to mapping list the filename of the cover with less color difference
@@ -60,8 +60,7 @@ def bar_mapping(directory, bar, size, temp_dir=""):
         mapping.append(cover_name)
 
     # Removes residual resources from the temporary directory
-    for image in os.listdir(temp_dir):
-        os.remove(f"{temp_dir}/{image}")
+    shutil.rmtree(temp_dir)
     return diagonalize_array(mapping)
 
 # Returns an n x n collage according to a list of cover that contain the filenames of a 
@@ -72,7 +71,7 @@ def square_collage(cover_list, cover_dir, n, output="collage", spp = 100):
     collage = Image.new('RGB', (spp * n, spp * n))
 
     for i in range(0, len(cover_list)):
-        img = Image.open(cover_dir + cover_list[i])
+        img = Image.open(f'{cover_dir}/{cover_list[i]}')
         width, height = img.size
 
         # Resizes the image maintaining aspect ratio
