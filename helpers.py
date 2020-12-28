@@ -1,5 +1,7 @@
+from PIL import Image
 import os, shutil
 
+# ---------- Matrixes
 def square_matrix(n, placeholder=False):
 	matrix = []
 	for i in range(n):
@@ -44,17 +46,28 @@ def twoD_to_linear(array):
 		output = [*output, *lista]
 	return output
 
-# Verify if some provided path exists, if not, it is created
-def verify_path(temp_dir=""):
-	if not temp_dir: 
-	        temp_dir='tmp'
+# ---------- os, shutil
+def verify_path(directory):
+	''' Verify if some provided path exists, if not, it is created '''
+	if not directory: 
+	        directory='tmp'
 	        try:
-		        shutil.rmtree(temp_dir)
+		        shutil.rmtree(directory)
 	        except:
-	        	os.mkdir(temp_dir)
+	        	os.mkdir(directory)
 	else:
 	    try:
-	        os.listdir(temp_dir)
+	        shutil.rmtree(directory)
+	        os.mkdir(directory)
 	    except:
-	        os.mkdir(temp_dir)
-	return temp_dir
+	        os.mkdir(directory)
+	return directory
+
+# ---------- PIL
+def colorbar(image, longitude):
+    ''' Returns a resized bar of longitude 1 x n from a chromatic bar file '''
+    return Image.open(image).resize((longitude, 1))
+
+def pixel_resize(image):
+    ''' Resize an image to 1x1 '''
+    return Image.open(image).resize((1, 1))
