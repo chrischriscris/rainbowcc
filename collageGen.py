@@ -10,7 +10,7 @@ class Collage:
         self.color_coding = color_coding
         counter = 0
         for a in os.listdir(directory):
-            if "jpg" in a or "png" in a:
+            if a[-3:].lower() in ["jpg", "png", "jpeg"]:
                 counter += 1
         self.temp_directory = temp_directory
         self.image_number = counter
@@ -26,7 +26,7 @@ class Collage:
         verify_path(self.temp_directory)
 
         for image in os.listdir(self.directory):
-            if "jpg" in image or "png" in image:
+            if image[-3:].lower() in ["jpg", "png", "jpeg"]:
                 img = pixel_resize(f"{self.directory}/{image}")
                 img.save(f"{self.temp_directory}/{image}")
 

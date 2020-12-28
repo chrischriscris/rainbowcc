@@ -49,18 +49,11 @@ def twoD_to_linear(array):
 # ---------- os, shutil
 def verify_path(directory):
 	''' Verify if some provided path exists, if not, it is created '''
-	if not directory: 
-	        directory='tmp'
-	        try:
-		        shutil.rmtree(directory)
-	        except:
-	        	os.mkdir(directory)
-	else:
-	    try:
-	        shutil.rmtree(directory)
-	        os.mkdir(directory)
-	    except:
-	        os.mkdir(directory)
+	try:
+		shutil.rmtree(directory)
+		os.mkdir(directory)
+	except:
+		os.mkdir(directory)
 	return directory
 
 # ---------- PIL
