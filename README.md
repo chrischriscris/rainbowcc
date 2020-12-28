@@ -17,14 +17,14 @@ First import Collage class from collageGen into your python script.
 <li>temp_directory (optional) is the path to a temporary directory that will be created and the removed in order to execute the algorithm</li>
 </ul>
 
-After you created an instace of Collage, use the <strong>make_square_collage(spp, output)</strong> method.
-It'll take a mandatory parameter (spp), which is the size per picture of the collage, and output, which is the name of the result (it will be saved in the current directory as a png file).
+<p>After you created an instace of Collage, use the <strong>make_square_collage(spp, output)</strong> method.</p>
+<p>It'll take a mandatory parameter (spp), which is the size per picture of the collage, and output, which is the name of the result (it will be saved in the current directory as a png file).</p>
 
 <h1>Example</h1>
-from collageGen import Collage
+<p>from collageGen import Collage</p>
 
-collage = Collage("my_img_dir", "rainbow.jpeg") 
-collage.make_square_collage(500, "beautifulCollage")
+<p>collage = Collage("my_img_dir", "rainbow.jpeg")</p>
+<p>collage.make_square_collage(500, "beautifulCollage")</p>
 
 <ul>
 
