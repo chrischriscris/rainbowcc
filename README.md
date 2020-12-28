@@ -25,6 +25,7 @@ It'll take a mandatory parameter (spp), which is the size per picture of the col
   from collageGen import Collage
 
   collage = Collage("my_img_dir", "rainbow.jpeg")
+  
   collage.make_square_collage(500, "beautifulCollage")
 
 + The example will take any picture from "my_img_dir" directory and will output a square collage according to "rainbow.jpeg" in a filename called "beautifulCollage.png".
