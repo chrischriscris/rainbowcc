@@ -73,4 +73,3 @@ def colorbar(image, longitude):
 def pixel_resize(image):
     ''' Resize an image to 1x1 '''
     return Image.open(image).resize((1, 1))
-
