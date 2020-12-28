@@ -1,37 +1,49 @@
+import os
+import shutil
+from pprint import pprint
 from PIL import Image
-import os, shutil
 
-# ---------- Matrixes
-def square_matrix(n, placeholder=False):
+
+
+# Matrix implementations
+def mmatrix(m, n, placeholder=False):
+	'''Returns an m x n matrix'''
 	matrix = []
-	for i in range(n):
-		lista = [placeholder for i in range(1, n+1)]
+	for i in range(m):
+		lista = [placeholder for i in range(0, n)]
 		matrix.append(lista)
 	return matrix
 
-def gen_diagonal(diagonal, n, placeholder=False, element=True):
-	if diagonal >= 2*n:
-		return 'Diagonal parameter must be less than 2 times the size of the matrix'
+def gen_diagonal(diagonal, m, n, placeholder=False, element=True):
+	if diagonal >= m+n:
+		return 'Diagonal parameter must be less than m + n.'
 	else:
-		matrix = square_matrix(n, placeholder)
+		matrix = mmatrix(m, n, placeholder)
 
-		for i in range(n):
+		for i in range(m):
 			for j in range(n):
-				if diagonal - 1 == i + j:
+				if diagonal-1 == i+j:
 					matrix[i][j] = element
 		return matrix
 
-def diagonalize_array(array):
+def twoD_to_linear(array):
+	output = []
+	for lista in array:
+		output = [*output, *lista]
+	return output
 
-	n = int(len(array) ** 0.5)
+def diagonalize_array(m, n, array):
 	l = 0
 	k = 1
-	output = square_matrix(n, placeholder="")
+	output = mmatrix(m, n, placeholder="")
 
-	while k < 2*n:
-		matrix = gen_diagonal(k, n, placeholder="", element="Diagonal")
+	if len(array) != m*n:
+		return f"{m}x{n} is not a valid size for your matrix."
 
-		for i in range(n):
+	while k < m+n:
+		matrix = gen_diagonal(k, m, n, placeholder="", element="Diagonal")
+
+		for i in range(m):
 			for j in range(n):
 				if matrix[i][j] == "Diagonal":
 					output[i][j] = array[l]
@@ -40,13 +52,9 @@ def diagonalize_array(array):
 
 	return twoD_to_linear(output)
 
-def twoD_to_linear(array):
-	output = []
-	for lista in array:
-		output = [*output, *lista]
-	return output
 
-# ---------- os, shutil
+
+# os, shutil implementation
 def verify_path(directory):
 	''' Verify if some provided path exists, if not, it is created '''
 	try:
@@ -56,11 +64,13 @@ def verify_path(directory):
 		os.mkdir(directory)
 	return directory
 
-# ---------- PIL
+
+
+# PIL implementations
 def colorbar(image, longitude):
     ''' Returns a resized bar of longitude 1 x n from a chromatic bar file '''
     return Image.open(image).resize((longitude, 1))
-
 def pixel_resize(image):
     ''' Resize an image to 1x1 '''
     return Image.open(image).resize((1, 1))
+
